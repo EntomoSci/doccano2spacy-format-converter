@@ -6,8 +6,7 @@ Description: Custom data types used by this project."""
 
 from custom_typehints import (
     DoccanoJsonlEntryTH, DoccanoJsonlLabelTH, DoccanoJsonlDataTH,
-    SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH
-)
+    SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 
 
 class DoccanoJsonlEntry:
@@ -27,8 +26,8 @@ class DoccanoJsonlData:
     Doccano's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[DoccanoJsonlEntryTH]) -> None:
-        self.entries: list[DoccanoJsonlEntry] = [DoccanoJsonlEntry(entry['id'], entry['text'], entry['label'])
-                                                 for entry in entries]
+        self.entries: list[DoccanoJsonlEntry] = [
+            DoccanoJsonlEntry(entry['id'], entry['text'], entry['label']) for entry in entries]
 
         return None
 
