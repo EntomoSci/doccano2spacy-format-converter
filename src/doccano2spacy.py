@@ -4,7 +4,9 @@ Author: https://github.com/smv7
 Description: Format converter from Doccano to Spacy's compatible format of Prodigy."""
 
 
-from custom_dtypes import DoccanoJsonlEntry, SpacyJsonlEntry
+from custom_dtypes import (
+    DoccanoJsonlEntry, DoccanoJsonlData,
+    SpacyJsonlEntry, SpacyJsonlData)
 
 
 class Doccano2Spacy:
@@ -20,7 +22,8 @@ class Doccano2Spacy:
         """
         Return converted version of `data` from Doccano's .jsonl format to spaCy's compatible format .jsonl."""
 
-        converted_data: str
+        converted_data: SpacyJsonlData = list()
+
 
         return converted_data
 
