@@ -14,9 +14,9 @@ DoccanoJsonlDataTH = NewType('DoccanoJsonlDataTH', list[DoccanoJsonlEntryTH])
 
 
 # Type hints for spaCy's compatible format.
-SpacyJsonlTokenTH = TypedDict('SpacyTokenDictTH', {'text': str, 'start': int, 'end': int, 'id': int})
+SpacyJsonlTokenTH = TypedDict('SpacyJsonlTokenTH', {'text': str, 'start': int, 'end': int, 'id': int})
 SpacyJsonlSpanTH = TypedDict('SpacyJsonlSpanTH', {'start': int, 'end': int,
                                             'token_start': int, 'token_end': int, 'label': str})
-SpacyJsonlEntryTH = TypedDict('SpacyJsonlDict', {'text': str, 'tokens': list[SpacyJsonlTokenTH],
+SpacyJsonlEntryTH = TypedDict('SpacyJsonlEntryTH', {'text': str, 'tokens': list[SpacyJsonlTokenTH],
                                                'spans': list[SpacyJsonlSpanTH]})
-SpacyJsonlDataTH = NewType('SpacyJsonlData', list[SpacyJsonlEntryTH])
+SpacyJsonlDataTH = NewType('SpacyJsonlDataTH', list[SpacyJsonlEntryTH])
