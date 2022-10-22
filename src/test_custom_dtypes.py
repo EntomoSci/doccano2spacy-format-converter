@@ -31,13 +31,17 @@ class TestCustomDtypes(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlLabel`."""
 
-        self.assertTrue(DoccanoJsonlLabel(deccano_entry['label'][0]) == deccano_entry)
+        check: bool = all(DoccanoJsonlLabel(label) == label for label in deccano_entry['label'])
+        self.assertTrue(check)
 
         return None
 
     def test_doccano_jsonl_entry(self) -> None:
         """
         Test `custom_dtypes.DoccanoJsonlEntry`."""
+
+        check: bool = DoccanoJsonlEntry(deccano_entry) == deccano_entry
+        self.assertTrue(check)
 
         return None
 
