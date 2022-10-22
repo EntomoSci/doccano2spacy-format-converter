@@ -13,10 +13,10 @@ class DoccanoJsonlEntry:
     """
     Doccano's annotated entry in .jsonl format."""
 
-    def __init__(self, id: int, text: str, label: DoccanoJsonlLabelTH) -> None:
-        self.id: int = id
-        self.text: int = text
-        self.label: DoccanoJsonlLabelTH = label
+    def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
+        self.id: int = entry['id']
+        self.text: int = entry['text']
+        self.label: DoccanoJsonlLabelTH = entry['label']
 
         return None
 
@@ -36,11 +36,11 @@ class SpacyJsonlToken:
     """
     Spacy's token in .jsonl format."""
 
-    def __init__(self, text: str, start: int, end: int, id: int) -> None:
-        self.text: str = text
-        self.start: int = start
-        self.end: int = end
-        self.id: int = id
+    def __init__(self, token: SpacyJsonlTokenTH) -> None:
+        self.text: str = token['text']
+        self.start: int = token['start']
+        self.end: int = token['end']
+        self.id: int = token['id']
 
         return None
 
@@ -49,12 +49,12 @@ class SpacyJsonlSpan:
     """
     Spacy's span in .jsonl format."""
 
-    def __init__(self, start: int, end: int, token_start: int, token_end: int, label: str) -> None:
-        self.start: int = start
-        self.end: int = end
-        self.token_start: int = token_start
-        self.token_end: int = token_end
-        self.label: str = label
+    def __init__(self, span: SpacyJsonlSpanTH) -> None:
+        self.start: int = span['start']
+        self.end: int = span['end']
+        self.token_start: int = span['token_start']
+        self.token_end: int = span['token_end']
+        self.label: str = span['label']
 
         return None
 
@@ -63,10 +63,10 @@ class SpacyJsonlEntry:
     """
     Spacy's annotated entry in .jsonl format."""
 
-    def __init__(self, text: str, tokens: list[SpacyJsonlTokenTH], spans: list[SpacyJsonlSpanTH]) -> None:
-        self.text: str = text
-        self.tokens: list[SpacyJsonlToken] = tokens
-        self.spans: list[SpacyJsonlSpan] = spans
+    def __init__(self, entry: SpacyJsonlEntryTH) -> None:
+        self.text: str = entry['text']
+        self.tokens: list[SpacyJsonlToken] = entry['tokens']
+        self.spans: list[SpacyJsonlSpan] = entry['spans']
 
         return None
 
