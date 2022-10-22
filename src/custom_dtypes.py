@@ -28,11 +28,12 @@ class DoccanoJsonlLabel:
     def __eq__(self, __o: object) -> bool:
         checks: list[bool] = []
         try:
-            checks.append(isinstance(__o, tuple))
+            checks.append(isinstance(__o, tuple | list))  #NOTE: Labels format can be passed as in/mutable sequences.
             checks.append(isinstance(__o[0], type(self.start)))
             checks.append(isinstance(__o[1], type(self.end)))
             checks.append(isinstance(__o[2], type(self.label)))
-        except IndexError:
+        except IndexError as e:
+            print(e)
             return False
 
         return all(checks)
@@ -57,7 +58,8 @@ class DoccanoJsonlEntry:
             checks.append(isinstance(__o['text'], type(self.text)))
             checks.append(isinstance(__o['label'], type(self.label)))
             checks.append(self.label[0] == __o['label'][0])
-        except KeyError:
+        except KeyError as e:
+            print(e)
             return False
 
         return all(checks)
@@ -68,8 +70,7 @@ class DoccanoJsonlData:
     Doccano's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[DoccanoJsonlEntryTH]) -> None:
-        self.entries: list[DoccanoJsonlEntry] = [
-            DoccanoJsonlEntry(entry) for entry in entries]
+        self.entries: list[DoccanoJsonlEntry] = [DoccanoJsonlEntry(entry) for entry in entries]
 
         return None
 
@@ -78,7 +79,8 @@ class DoccanoJsonlData:
         try:
             checks.append(isinstance(__o, list))
             checks.append(self.entries[0] == __o[0])
-        except KeyError:
+        except KeyError as e:
+            print(e)
             return False
 
         return all(checks)
