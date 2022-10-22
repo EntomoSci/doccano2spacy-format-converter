@@ -9,7 +9,10 @@ import unittest
 from custom_dtypes import (
     DoccanoJsonlLabel, DoccanoJsonlEntry, DoccanoJsonlData,
     SpacyJsonlToken, SpacyJsonlSpan, SpacyJsonlEntry, SpacyJsonlData)
-from utils.samples import deccano_entry, spacy_entry
+from custom_typehints import (
+    DoccanoJsonlEntryTH, DoccanoJsonlLabelTH, DoccanoJsonlDataTH,
+    SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
+from utils.test_samples import doccano_jsonl_data, spacy_entry
 
 
 class TestCustomDtypes(unittest.TestCase):
@@ -31,8 +34,13 @@ class TestCustomDtypes(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlLabel`."""
 
-        check: bool = all(DoccanoJsonlLabel(label) == label for label in deccano_entry['label'])
-        self.assertTrue(check)
+        checks: list[bool] = []
+        for entry in doccano_jsonl_data:
+            entry: DoccanoJsonlEntryTH
+            for label in entry['labels']:
+                label: DoccanoJsonlLabelTH
+                checks.append(DoccanoJsonlLabel(label) == label)
+        self.assertTrue(all(checks))
 
         return None
 
@@ -40,14 +48,19 @@ class TestCustomDtypes(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlEntry`."""
 
-        check: bool = DoccanoJsonlEntry(deccano_entry) == deccano_entry
-        self.assertTrue(check)
+        checks: list[bool] = []
+        for entry in doccano_jsonl_data:
+            entry: DoccanoJsonlEntryTH
+            checks.append(DoccanoJsonlEntry(entry) == entry)
+        self.assertTrue(all(checks))
 
         return None
 
     def test_doccano_jsonl_data(self) -> None:
         """
         Test `custom_dtypes.DoccanoJsonlData`."""
+
+        self.assertTrue(DoccanoJsonlEntry(doccano_jsonl_data) == doccano_jsonl_data)
 
         return None
 

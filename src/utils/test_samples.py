@@ -4,15 +4,13 @@ Author: https://github.com/smv7
 Description: Samples of the Deccano and spaCy .jsonl formats."""
 
 
-deccano_entry = {"id": 1,
-                 "text": "Les traemos un nuevo producto para hacer más amenas sus partidas. Prácticos recipientes para \
-                    fichas diseñados para poder sacar tus fichas de manera cómoda en partida y facilitar su \
-                    almacenamiento. Costo del set $4990",
-                 "label": [
-                    [76,99,"PRODUCT_TYPE"],
-                    [211,216,"PRODUCT_PRICE"]
-                    ]
-                }
+doccano_jsonl_data = [
+{"id":2,"text":"Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},
+{"id": 1, "text": "Les traemos un nuevo producto para hacer más amenas sus partidas. Prácticos recipientes para fichas \
+  diseñados para poder sacar tus fichas de manera cómoda en partida y facilitar su almacenamiento. Costo del set $4990",
+  "label": [[76,99,"PRODUCT_TYPE"], [211,216,"PRODUCT_PRICE"]]},
+{"id":6,"text":"Torre de dados de cthulhu. Tenemos cupos inmediato para impresión en filamentos, consulta por tu idea","label":[[0,25,"PRODUCT_TYPE"],[18,25,"BOARDGAME_NAME"],[56,79,"PRODUCT_MATERIAL"]]}
+]
 
 spacy_entry = {
   "text": "Bonobos has some long sizes.",
