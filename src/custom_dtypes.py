@@ -9,6 +9,35 @@ from custom_typehints import (
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 
 
+#NOTE: The __eq__ methods are used for object comparison using the compound custom type hints that defines the structure
+# of the objects. For the comparison of inner compound types like "DoccanoJsonlLabel" inside "DoccanoJsonlEntry" objects
+# its respetive __eq__ methods are used iteratively.
+
+
+class DoccanoJsonlLabel:
+    """
+    Doccano's annotated label in .jsonl format."""
+
+    def __init__(self, label: tuple[int, int, str]) -> None:
+        self.start: int = label[0]
+        self.end: int = label[1]
+        self.label: int = label[2]
+
+        return None
+
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            checks.append(isinstance(__o, tuple))
+            checks.append(isinstance(__o[0], type(self.start)))
+            checks.append(isinstance(__o[1], type(self.end)))
+            checks.append(isinstance(__o[2], type(self.label)))
+        except IndexError:
+            return False
+
+        return all(checks)
+
+
 class DoccanoJsonlEntry:
     """
     Doccano's annotated entry in .jsonl format."""
@@ -16,9 +45,21 @@ class DoccanoJsonlEntry:
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
         self.id: int = entry['id']
         self.text: int = entry['text']
-        self.label: DoccanoJsonlLabelTH = entry['label']
+        self.label: DoccanoJsonlLabelTH = DoccanoJsonlLabel(entry['label'])
 
         return None
+
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            checks.append(isinstance(__o, dict))
+            checks.append(isinstance(__o['id'], type(self.id)))
+            checks.append(isinstance(__o['text'], type(self.text)))
+            checks.append(self.label == __o['label'])
+        except KeyError:
+            return False
+
+        return all(checks)
 
 
 class DoccanoJsonlData:
@@ -30,6 +71,16 @@ class DoccanoJsonlData:
             DoccanoJsonlEntry(entry['id'], entry['text'], entry['label']) for entry in entries]
 
         return None
+
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            checks.append(isinstance(__o, list))
+            checks.append(self.entries[0] == __o[0])
+        except KeyError:
+            return False
+
+        return all(checks)
 
 
 class SpacyJsonlToken:
@@ -47,7 +98,6 @@ class SpacyJsonlToken:
     def __eq__(self, __o: object) -> bool:
         checks: list[bool] = []
         try:
-            #NOTE: The check to other compound types is made with its respective __eq__ methods.
             checks.append(isinstance(__o, dict))
             checks.append(isinstance(__o['text'], type(self.text)))
             checks.append(isinstance(__o['start'], type(self.start)))
@@ -75,7 +125,6 @@ class SpacyJsonlSpan:
     def __eq__(self, __o: object) -> bool:
         checks: list[bool] = []
         try:
-            #NOTE: The check to other compound types is made with its respective __eq__ methods.
             checks.append(isinstance(__o, dict))
             checks.append(isinstance(__o['start'], type(self.start)))
             checks.append(isinstance(__o['end'], type(self.end)))
@@ -102,13 +151,12 @@ class SpacyJsonlEntry:
     def __eq__(self, __o: object) -> bool:
         checks: list[bool] = []
         try:
-            #NOTE: The check to other compound types is made with its respective __eq__ methods.
             checks.append(isinstance(__o, dict))
             checks.append(isinstance(__o['text'], type(self.text)))
             checks.append(isinstance(__o['tokens'], type(self.tokens)))
-            checks.append(__o['tokens'][0] == self.tokens[0])
+            checks.append(self.tokens[0] == __o['tokens'][0])
             checks.append(isinstance(__o['spans'], type(self.spans)))
-            checks.append(__o['spans'][0] == self.spans[0])
+            checks.append(self.spans[0] == __o['spans'][0])
         except KeyError:
             return False
 
@@ -145,9 +193,8 @@ class SpacyJsonlData:
     def __eq__(self, __o: object) -> bool:
         checks: list[bool] = []
         try:
-            #NOTE: The check to other compound types is made with its respective __eq__ methods.
             checks.append(isinstance(__o, list))
-            checks.append(__o[0] == self.entries[0])
+            checks.append(self.entries[0] == __o[0])
         except KeyError:
             return False
 
