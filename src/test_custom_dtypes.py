@@ -12,7 +12,7 @@ from custom_dtypes import (
 from custom_typehints import (
     DoccanoJsonlEntryTH, DoccanoJsonlLabelTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
-from utils.test_samples import doccano_jsonl_data, spacy_entry
+from utils.test_samples import doccano_jsonl_data, spacy_jsonl_data
 
 
 class TestCustomDtypes(unittest.TestCase):
