@@ -44,6 +44,20 @@ class SpacyJsonlToken:
 
         return None
 
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            #NOTE: The check to other compound types is made with its respective __eq__ methods.
+            checks.append(isinstance(__o, dict))
+            checks.append(isinstance(__o['text'], type(self.text)))
+            checks.append(isinstance(__o['start'], type(self.start)))
+            checks.append(isinstance(__o['end'], type(self.end)))
+            checks.append(isinstance(__o['id'], type(self.id)))
+        except KeyError:
+            return False
+
+        return all(checks)
+
 
 class SpacyJsonlSpan:
     """
@@ -58,6 +72,21 @@ class SpacyJsonlSpan:
 
         return None
 
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            #NOTE: The check to other compound types is made with its respective __eq__ methods.
+            checks.append(isinstance(__o, dict))
+            checks.append(isinstance(__o['start'], type(self.start)))
+            checks.append(isinstance(__o['end'], type(self.end)))
+            checks.append(isinstance(__o['token_start'], type(self.token_start)))
+            checks.append(isinstance(__o['token_end'], type(self.token_end)))
+            checks.append(isinstance(__o['label'], type(self.label)))
+        except KeyError:
+            return False
+
+        return all(checks)
+
 
 class SpacyJsonlEntry:
     """
@@ -69,6 +98,21 @@ class SpacyJsonlEntry:
         self.spans: list[SpacyJsonlSpan] = entry['spans']
 
         return None
+
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            #NOTE: The check to other compound types is made with its respective __eq__ methods.
+            checks.append(isinstance(__o, dict))
+            checks.append(isinstance(__o['text'], type(self.text)))
+            checks.append(isinstance(__o['tokens'], type(self.tokens)))
+            checks.append(__o['tokens'][0] == self.tokens[0])
+            checks.append(isinstance(__o['spans'], type(self.spans)))
+            checks.append(__o['spans'][0] == self.spans[0])
+        except KeyError:
+            return False
+
+        return all(checks)
 
 
 class SpacyJsonlData:
@@ -97,3 +141,14 @@ class SpacyJsonlData:
             self.entries.append(entry)
 
         return None
+
+    def __eq__(self, __o: object) -> bool:
+        checks: list[bool] = []
+        try:
+            #NOTE: The check to other compound types is made with its respective __eq__ methods.
+            checks.append(isinstance(__o, list))
+            checks.append(__o[0] == self.entries[0])
+        except KeyError:
+            return False
+
+        return all(checks)
