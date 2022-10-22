@@ -45,7 +45,7 @@ class DoccanoJsonlEntry:
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
         self.id: int = entry['id']
         self.text: int = entry['text']
-        self.labels: list[DoccanoJsonlLabelTH] = [DoccanoJsonlLabel(label) for label in entry['labels']]
+        self.label: list[DoccanoJsonlLabelTH] = [DoccanoJsonlLabel(label) for label in entry['label']]
 
         return None
 
@@ -55,8 +55,8 @@ class DoccanoJsonlEntry:
             checks.append(isinstance(__o, dict))
             checks.append(isinstance(__o['id'], type(self.id)))
             checks.append(isinstance(__o['text'], type(self.text)))
-            checks.append(isinstance(__o['labels'], type(self.labels)))
-            checks.append(self.labels[0] == __o['labels'][0])
+            checks.append(isinstance(__o['label'], type(self.label)))
+            checks.append(self.label[0] == __o['label'][0])
         except KeyError:
             return False
 
@@ -69,7 +69,7 @@ class DoccanoJsonlData:
 
     def __init__(self, entries: list[DoccanoJsonlEntryTH]) -> None:
         self.entries: list[DoccanoJsonlEntry] = [
-            DoccanoJsonlEntry(entry['id'], entry['text'], entry['label']) for entry in entries]
+            DoccanoJsonlEntry(entry) for entry in entries]
 
         return None
 
@@ -168,7 +168,7 @@ class SpacyJsonlData:
     """Spacy's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[SpacyJsonlEntryTH]) -> None:
-        self.entries = list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
+        self.entries: list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
 
         return None
 

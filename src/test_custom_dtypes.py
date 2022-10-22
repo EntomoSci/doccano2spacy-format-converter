@@ -20,13 +20,8 @@ class TestCustomDtypes(unittest.TestCase):
     Tests for the custom dtypes at `custom_dtypes.py` module."""
 
     def setUp(self) -> None:
-        # doccano_jsonl_label = DoccanoJsonlLabel()
-        # doccano_jsonl_entry = DoccanoJsonlEntry()
-        # doccano_jsonl_data = DoccanoJsonlData()
-        # spacy_jsonl_token = SpacyJsonlToken()
-        # spacy_jsonl_span = SpacyJsonlSpan()
-        # spacy_jsonl_entry = SpacyJsonlEntry()
-        # spacy_jsonl_data = SpacyJsonlData()
+        self.doccano_jsonl_data = doccano_jsonl_data
+        self.spacy_jsonl_data = spacy_jsonl_data
 
         return None
 
@@ -35,9 +30,9 @@ class TestCustomDtypes(unittest.TestCase):
         Test `custom_dtypes.DoccanoJsonlLabel`."""
 
         checks: list[bool] = []
-        for entry in doccano_jsonl_data:
+        for entry in self.doccano_jsonl_data:
             entry: DoccanoJsonlEntryTH
-            for label in entry['labels']:
+            for label in entry['label']:
                 label: DoccanoJsonlLabelTH
                 checks.append(DoccanoJsonlLabel(label) == label)
         self.assertTrue(all(checks))
@@ -49,7 +44,7 @@ class TestCustomDtypes(unittest.TestCase):
         Test `custom_dtypes.DoccanoJsonlEntry`."""
 
         checks: list[bool] = []
-        for entry in doccano_jsonl_data:
+        for entry in self.doccano_jsonl_data:
             entry: DoccanoJsonlEntryTH
             checks.append(DoccanoJsonlEntry(entry) == entry)
         self.assertTrue(all(checks))
@@ -60,8 +55,8 @@ class TestCustomDtypes(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlData`."""
 
-        doccano_jsonl_data: DoccanoJsonlDataTH
-        self.assertTrue(DoccanoJsonlEntry(doccano_jsonl_data) == doccano_jsonl_data)
+        # self.doccano_jsonl_data: DoccanoJsonlDataTH
+        self.assertTrue(DoccanoJsonlData(self.doccano_jsonl_data) == self.doccano_jsonl_data)
 
         return None
 
@@ -70,7 +65,7 @@ class TestCustomDtypes(unittest.TestCase):
         Test `custom_dtypes.SpacyJsonlToken`."""
 
         checks: list[bool] = []
-        for entry in spacy_jsonl_data:
+        for entry in self.spacy_jsonl_data:
             entry: SpacyJsonlEntryTH
             for token in entry['tokens']:
                 token: SpacyJsonlTokenTH
@@ -84,7 +79,7 @@ class TestCustomDtypes(unittest.TestCase):
         Test `custom_dtypes.SpacyJsonlSpan`."""
 
         checks: list[bool] = []
-        for entry in spacy_jsonl_data:
+        for entry in self.spacy_jsonl_data:
             entry: SpacyJsonlEntryTH
             for span in entry['spans']:
                 span: SpacyJsonlSpanTH
@@ -98,7 +93,7 @@ class TestCustomDtypes(unittest.TestCase):
         Test `custom_dtypes.SpacyJsonlEntry`."""
 
         checks: list[bool] = []
-        for entry in spacy_jsonl_data:
+        for entry in self.spacy_jsonl_data:
             entry: SpacyJsonlEntryTH
             checks.append(SpacyJsonlEntry(entry) == entry)
         self.assertTrue(all(checks))
@@ -109,7 +104,11 @@ class TestCustomDtypes(unittest.TestCase):
         """
         Test `custom_dtypes.SpacyJsonlData`."""
 
-        spacy_jsonl_data: SpacyJsonlDataTH
-        self.assertTrue(SpacyJsonlData(spacy_jsonl_data) == spacy_jsonl_data)
+        # self.spacy_jsonl_data: SpacyJsonlDataTH
+        self.assertTrue(SpacyJsonlData(self.spacy_jsonl_data) == self.spacy_jsonl_data)
 
         return None
+
+
+if __name__ == '__main__':
+    unittest.main()
