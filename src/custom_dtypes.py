@@ -144,8 +144,8 @@ class SpacyJsonlEntry:
 
     def __init__(self, entry: SpacyJsonlEntryTH) -> None:
         self.text: str = entry['text']
-        self.tokens: list[SpacyJsonlToken] = entry['tokens']
-        self.spans: list[SpacyJsonlSpan] = entry['spans']
+        self.tokens: list[SpacyJsonlToken] = [SpacyJsonlToken(token) for token in entry['tokens']]
+        self.spans: list[SpacyJsonlSpan] = [SpacyJsonlSpan(span) for span in entry['spans']]
 
         return None
 
@@ -168,26 +168,7 @@ class SpacyJsonlData:
     """Spacy's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[SpacyJsonlEntryTH]) -> None:
-
-        # Building and storing the Doccano's .jsonl entries passed as they custom dtypes.
-        self.entries = list[SpacyJsonlEntry] = []
-        for e in entries:
-
-            # Building and storing the entry tokens as its custom dtype.
-            tokens: list[SpacyJsonlToken] = []
-            for t in e['tokens']:
-                token = SpacyJsonlToken(t['text'], t['start'], t['end'], t['id'])
-                tokens.append(token)
-
-            # Building and storing the entry spans as its custom dtype.
-            spans: list[SpacyJsonlSpan] = []
-            for s in e['spans']:
-                span = SpacyJsonlSpan(s['start'], s['end'], s['token_start'], s['token_end'], s['label'])
-                spans.append(span)
-
-            # Building and storing the annotated entry as they custom dtypes.
-            entry = SpacyJsonlEntry(e['text'], tokens, spans)
-            self.entries.append(entry)
+        self.entries = list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
 
         return None
 
