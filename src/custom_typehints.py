@@ -9,7 +9,7 @@ from typing import NewType, TypedDict
 
 # Type hints for Doccano's format.
 DoccanoJsonlLabelTH = NewType('DoccanoJsonlLabelTH', tuple[int, int, str])
-DoccanoJsonlEntryTH = TypedDict('DoccanoJsonlEntryTH', {'id': int, 'text': str, 'label': DoccanoJsonlLabelTH})
+DoccanoJsonlEntryTH = TypedDict('DoccanoJsonlEntryTH', {'id': int, 'text': str, 'labels': list[DoccanoJsonlLabelTH]})
 DoccanoJsonlDataTH = NewType('DoccanoJsonlDataTH', list[DoccanoJsonlEntryTH])
 
 

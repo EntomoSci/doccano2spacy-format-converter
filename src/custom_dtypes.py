@@ -45,7 +45,7 @@ class DoccanoJsonlEntry:
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
         self.id: int = entry['id']
         self.text: int = entry['text']
-        self.label: DoccanoJsonlLabelTH = DoccanoJsonlLabel(entry['label'])
+        self.labels: list[DoccanoJsonlLabelTH] = [DoccanoJsonlLabel(label) for label in entry['labels']]
 
         return None
 
@@ -55,7 +55,8 @@ class DoccanoJsonlEntry:
             checks.append(isinstance(__o, dict))
             checks.append(isinstance(__o['id'], type(self.id)))
             checks.append(isinstance(__o['text'], type(self.text)))
-            checks.append(self.label == __o['label'])
+            checks.append(isinstance(__o['labels'], type(self.labels)))
+            checks.append(self.labels[0] == __o['labels'][0])
         except KeyError:
             return False
 
