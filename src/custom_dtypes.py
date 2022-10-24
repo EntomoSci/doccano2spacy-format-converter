@@ -119,10 +119,17 @@ class SpacyJsonlToken:
     Spacy's token in .jsonl format."""
 
     def __init__(self, token: SpacyJsonlTokenTH) -> None:
-        self.text: str = token['text']
-        self.start: int = token['start']
-        self.end: int = token['end']
-        self.id: int = token['id']
+        try:
+            text, start, end, id_ = token['text'], token['start'], token['end'], token['id']
+        except (TypeError, KeyError) as e:
+            err_msg: str = f'Token "{token}" don\'t meet format required. ' +\
+                           f'Must be non-empty {SpacyJsonlTokenTH.__annotations__}.'
+            raise SpacyJsonlTokenBadFormat(err_msg)
+        else:
+            self.text: str = text
+            self.start: int = start
+            self.end: int = end
+            self.id: int = id_
 
         return None
 
