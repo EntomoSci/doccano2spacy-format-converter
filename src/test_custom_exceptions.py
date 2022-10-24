@@ -114,6 +114,22 @@ class TestCustomExceptions(unittest.TestCase):
 
         return None
 
+    def test_spacy_jsonl_entry_exception(self) -> None:
+        """
+        Test `custom_dtypes.SpacyJsonlEntryBadFormat`."""
+
+        samples: list[SpacyJsonlEntryTH] = self.bad_spacy_jsonl_entry_samples
+        checks: int = 0
+        for sample in samples:
+            try:
+                SpacyJsonlEntry(sample)
+            except SpacyJsonlEntryBadFormat as e:
+                # print(type(e), e)
+                checks += 1
+        self.assertTrue(checks == len(samples))
+
+        return None
+
 
 if __name__ == '__main__':
     unittest.main()

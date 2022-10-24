@@ -30,11 +30,11 @@ class SpacyJsonlSpanBadFormat(Exception):
     Exception raised when input files don't meet `SpacyJsonlSpan` format."""
 
 
-class SpacyJsonlEntryBadFormat:
+class SpacyJsonlEntryBadFormat(Exception):
     """
     Exception raised when input files don't meet `SpacyJsonlEntry` format."""
 
 
-class SpacyJsonlDataBadFormat:
+class SpacyJsonlDataBadFormat(Exception):
     """
     Exception raised when input files don't meet `SpacyJsonlData` format."""
