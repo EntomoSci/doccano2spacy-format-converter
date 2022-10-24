@@ -10,7 +10,7 @@ from custom_dtypes import (
     DoccanoJsonlLabel, DoccanoJsonlEntry, DoccanoJsonlData,
     SpacyJsonlToken, SpacyJsonlSpan, SpacyJsonlEntry, SpacyJsonlData)
 from custom_typehints import (
-    DoccanoJsonlEntryTH, DoccanoJsonlLabelTH, DoccanoJsonlDataTH,
+    DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 from utils.test_samples import doccano_jsonl_data, spacy_jsonl_data
 

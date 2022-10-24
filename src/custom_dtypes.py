@@ -5,8 +5,11 @@ Description: Custom data types used by this project."""
 
 
 from custom_typehints import (
-    DoccanoJsonlEntryTH, DoccanoJsonlLabelTH, DoccanoJsonlDataTH,
+    DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
+
+from custom_exceptions import (
+    DoccanoJsonlLabelBadFormat, DoccanoJsonlEntryBadFormat, DoccanoJsonlDataBadFormat)
 
 
 #NOTE: The __eq__ methods are used for object comparison using the compound custom type hints that defines the structure
@@ -18,10 +21,20 @@ class DoccanoJsonlLabel:
     """
     Doccano's annotated label in .jsonl format."""
 
-    def __init__(self, label: tuple[int, int, str]) -> None:
-        self.start: int = label[0]
-        self.end: int = label[1]
-        self.label: int = label[2]
+    def __init__(self, label_: DoccanoJsonlLabelTH) -> None:
+        err_msg: str = f'Label "{label_}" don\'t meet format required. ' +\
+                       f'Must be non-empty {DoccanoJsonlLabelTH.__supertype__}.'
+        err = DoccanoJsonlLabelBadFormat(err_msg)
+        try:
+            start, end, label = label_[0], label_[1], label_[2]
+            if not all([isinstance(x, type_) for x, type_ in zip((start, end, label), (int, int, str))]):
+                raise err
+        except IndexError:
+            raise err
+        else:
+            self.start: int = start
+            self.end: int = end
+            self.label: str = label
 
         return None
 
@@ -183,3 +196,8 @@ class SpacyJsonlData:
             return False
 
         return all(checks)
+
+if __name__ == '__main__':
+    a = DoccanoJsonlLabel((1, 1, ['label']))
+    print(type(a), a)
+    print(DoccanoJsonlLabelTH.__supertype__)
