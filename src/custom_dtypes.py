@@ -58,7 +58,7 @@ class DoccanoJsonlEntry:
 
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
         err_msg: str = f'Entry "{entry}" don\'t meet format required. ' +\
-                       f'Must be non-empty {DoccanoJsonlEntryTH.__supertype__}.'
+                       f'Must be non-empty {DoccanoJsonlEntryTH.__annotations__}.'
         err = DoccanoJsonlEntryBadFormat(err_msg)
         try:
             id_, text, label = entry['id'], entry['text'], [DoccanoJsonlLabel(label) for label in entry['label']]
@@ -66,7 +66,7 @@ class DoccanoJsonlEntry:
                not all([isinstance(x, type_) for x, type_ in zip((id_, text, label), (int, int, list))]) or\
                not isinstance(label[0], DoccanoJsonlEntryTH):
                 raise err
-        except (IndexError, TypeError, DoccanoJsonlLabelBadFormat):
+        except (KeyError, IndexError, TypeError, DoccanoJsonlLabelBadFormat):
             raise err
         else:
             self.id: int = id_
@@ -95,7 +95,15 @@ class DoccanoJsonlData:
     Doccano's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[DoccanoJsonlEntryTH]) -> None:
-        self.entries: list[DoccanoJsonlEntry] = [DoccanoJsonlEntry(entry) for entry in entries]
+        err_msg: str = f'Entries "{entries}" don\'t meet format required. ' +\
+                       f'Must be non-empty {DoccanoJsonlDataTH.__supertype__}.'
+        err = DoccanoJsonlDataBadFormat(err_msg)
+        try:
+            entries: list[DoccanoJsonlEntry] = [DoccanoJsonlEntry(entry) for entry in entries]
+        except (DoccanoJsonlLabelBadFormat, DoccanoJsonlEntryBadFormat, TypeError) as e:
+            raise err
+        else:
+            self.entries = entries
 
         return None
 
