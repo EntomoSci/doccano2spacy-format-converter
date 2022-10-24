@@ -18,3 +18,23 @@ class DoccanoJsonlEntryBadFormat(Exception):
 class DoccanoJsonlDataBadFormat(Exception):
     """
     Exception raised when input files don't meet `DoccanoJsonlData` format."""
+
+
+class SpacyJsonlTokenBadFormat(Exception):
+    """
+    Exception raised when input files don't meet `SpacyJsonlToken` format."""
+    
+
+class SpacyJsonlSpanBadFormat(Exception):
+    """
+    Exception raised when input files don't meet `SpacyJsonlSpan` format."""
+
+
+class SpacyJsonlEntryBadFormat:
+    """
+    Exception raised when input files don't meet `SpacyJsonlEntry` format."""
+
+
+class SpacyJsonlDataBadFormat:
+    """
+    Exception raised when input files don't meet `SpacyJsonlData` format."""
