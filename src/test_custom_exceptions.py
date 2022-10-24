@@ -16,7 +16,7 @@ from custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 from utils.test_samples import (
-    bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples)
+    bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples)
 
 
 class TestCustomExceptions(unittest.TestCase):
@@ -26,6 +26,7 @@ class TestCustomExceptions(unittest.TestCase):
     def setUp(self) -> None:
         self.bad_doccano_jsonl_label_samples = bad_doccano_jsonl_label_samples
         self.bad_doccano_jsonl_entry_samples = bad_doccano_jsonl_entry_samples
+        self.bad_doccano_jsonl_data_samples = bad_doccano_jsonl_data_samples
 
         return None
 
@@ -65,22 +66,15 @@ class TestCustomExceptions(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlDataBadFormat`."""
     
-        bad_formated_samples: list[DoccanoJsonlDataTH] = [
-            [{},
-            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12],[37,57,"BOARDGAME_NAME"]]},
-            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[["PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]}
-            ], [
-            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],['37',57,"BOARDGAME_NAME"]]},
-            {"text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,[12],"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},]]
-
+        samples = self.bad_doccano_jsonl_data_samples
         checks: int = 0
-        for sample in bad_formated_samples:
+        for sample in samples:
             try:
                 DoccanoJsonlData(sample)
             except DoccanoJsonlDataBadFormat as e:
                 # print(type(e), e)
                 checks += 1
-        self.assertTrue(checks == len(bad_formated_samples))
+        self.assertTrue(checks == len(samples))
 
         return None
 
