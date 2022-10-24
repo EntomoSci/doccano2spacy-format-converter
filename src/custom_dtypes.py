@@ -199,9 +199,18 @@ class SpacyJsonlEntry:
     Spacy's annotated entry in .jsonl format."""
 
     def __init__(self, entry: SpacyJsonlEntryTH) -> None:
-        self.text: str = entry['text']
-        self.tokens: list[SpacyJsonlToken] = [SpacyJsonlToken(token) for token in entry['tokens']]
-        self.spans: list[SpacyJsonlSpan] = [SpacyJsonlSpan(span) for span in entry['spans']]
+        try:
+            text: str = entry['text']
+            tokens: list[SpacyJsonlToken] = [SpacyJsonlToken(token) for token in entry['tokens']]
+            spans: list[SpacyJsonlSpan] = [SpacyJsonlSpan(span) for span in entry['spans']]
+        except (KeyError, IndexError, TypeError, SpacyJsonlTokenBadFormat, SpacyJsonlSpanBadFormat):
+            err_msg: str = f'Entry "{entry}" don\'t meet format required. ' +\
+                        f'Must be non-empty {SpacyJsonlEntryTH.__annotations__}.'
+            raise SpacyJsonlEntryBadFormat(err_msg)
+        else:
+            self.text: str = text
+            self.tokens: list[SpacyJsonlToken] = tokens
+            self.spans: list[SpacyJsonlSpan] = spans
 
         return None
 
