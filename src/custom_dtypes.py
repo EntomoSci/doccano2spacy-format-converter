@@ -233,7 +233,14 @@ class SpacyJsonlData:
     """Spacy's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[SpacyJsonlEntryTH]) -> None:
-        self.entries: list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
+        try:
+            entries: list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
+        except (SpacyJsonlEntryBadFormat, TypeError) as e:
+            err_msg: str = f'Entries "{entries}" don\'t meet format required. ' +\
+                           f'Must be non-empty {SpacyJsonlDataTH.__supertype__}.'
+            raise SpacyJsonlDataBadFormat(err_msg)
+        else:
+            self.entries: list[SpacyJsonlEntry] = entries
 
         return None
 
@@ -246,8 +253,3 @@ class SpacyJsonlData:
             return False
 
         return all(checks)
-
-if __name__ == '__main__':
-    a = DoccanoJsonlLabel((1, 1, ['label']))
-    print(type(a), a)
-    print(DoccanoJsonlLabelTH.__supertype__)

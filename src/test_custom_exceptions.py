@@ -17,7 +17,8 @@ from custom_typehints import (
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 from utils.test_samples import (
     bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples,
-    bad_spacy_jsonl_token_samples, bad_spacy_jsonl_span_samples, bad_spacy_jsonl_entry_samples)
+    bad_spacy_jsonl_token_samples, bad_spacy_jsonl_span_samples, bad_spacy_jsonl_entry_samples,
+    bad_spacy_jsonl_data_samples)
 
 
 class TestCustomExceptions(unittest.TestCase):
@@ -31,6 +32,7 @@ class TestCustomExceptions(unittest.TestCase):
         self.bad_spacy_jsonl_token_samples = bad_spacy_jsonl_token_samples
         self.bad_spacy_jsonl_span_samples = bad_spacy_jsonl_span_samples
         self.bad_spacy_jsonl_entry_samples = bad_spacy_jsonl_entry_samples
+        self.bad_spacy_jsonl_data_samples = bad_spacy_jsonl_data_samples
 
         return None
 
@@ -124,6 +126,22 @@ class TestCustomExceptions(unittest.TestCase):
             try:
                 SpacyJsonlEntry(sample)
             except SpacyJsonlEntryBadFormat as e:
+                # print(type(e), e)
+                checks += 1
+        self.assertTrue(checks == len(samples))
+
+        return None
+
+    def test_spacy_jsonl_data_exception(self) -> None:
+        """
+        Test `custom_dtypes.SpacyJsonlDataBadFormat`."""
+
+        samples: list[SpacyJsonlDataTH] = self.bad_spacy_jsonl_data_samples
+        checks: int = 0
+        for sample in samples:
+            try:
+                SpacyJsonlData(sample)
+            except SpacyJsonlDataBadFormat as e:
                 # print(type(e), e)
                 checks += 1
         self.assertTrue(checks == len(samples))

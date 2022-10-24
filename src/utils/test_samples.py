@@ -192,3 +192,8 @@ bad_spacy_jsonl_entry_samples: list[SpacyJsonlTokenTH] = [{
       "label": ['FASHION_BRAND']
     }]
 }]
+
+# NOTE: The construction of full data samples is too complex. Being simply a list of entries, it variable is reutilized.
+bad_spacy_jsonl_data_samples: list[SpacyJsonlDataTH] = [
+	bad_spacy_jsonl_entry_samples,
+	bad_spacy_jsonl_entry_samples]
