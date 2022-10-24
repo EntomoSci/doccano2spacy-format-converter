@@ -133,6 +133,28 @@ bad_spacy_jsonl_token_samples: list[SpacyJsonlTokenTH] = [
     { "text": "long", "start": 17, "end": 21 },
     { "text": None, "start": 22, "end": 27, "id": 4 },]
 
+bad_spacy_jsonl_span_samples: list[SpacyJsonlSpanTH] = [
+	{
+      "start": 0,
+      "end": 7,
+      "token_start": 0,
+      "token_end": 0,
+    },
+	{
+      "start": 0,
+      "end": [7],
+      "token_start": 0,
+      "token_end": '0',
+      "label": "FASHION_BRAND"
+    },
+	{
+      "start": 0,
+      "end": 7,
+      "token_start": 0,
+      "token_end": 0,
+      "label": 123
+    }]
+
 bad_spacy_jsonl_entry_samples: list[SpacyJsonlTokenTH] = [{
   "text": "Bonobos has some long sizes.",
   "tokens": [

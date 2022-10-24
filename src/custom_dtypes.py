@@ -155,11 +155,27 @@ class SpacyJsonlSpan:
     Spacy's span in .jsonl format."""
 
     def __init__(self, span: SpacyJsonlSpanTH) -> None:
-        self.start: int = span['start']
-        self.end: int = span['end']
-        self.token_start: int = span['token_start']
-        self.token_end: int = span['token_end']
-        self.label: str = span['label']
+        err_msg: str = f'Span "{span}" don\'t meet format required. ' +\
+                        f'Must be non-empty {SpacyJsonlSpanTH.__annotations__}.'
+        err = SpacyJsonlSpanBadFormat(err_msg)
+        try:
+            start: int = span['start']
+            end: int = span['end']
+            token_start: int = span['token_start']
+            token_end: int = span['token_end']
+            label: str = span['label']
+            if not all([isinstance(x, type_)
+                        for x, type_ in zip((start, end, token_start, token_end, label),
+                                             (int, int, int, int, str))]):
+                raise err
+        except (KeyError, TypeError) as e:
+            raise err
+        else:
+            self.start: int = start
+            self.end: int = end
+            self.token_start: int = token_start
+            self.token_end: int = token_end
+            self.label: str = label
 
         return None
 
