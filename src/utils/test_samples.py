@@ -109,3 +109,10 @@ bad_doccano_jsonl_label_samples: list[DoccanoJsonlLabelTH] = [
     ('1', '1', 'label'),
     ('1', 1, 'label'),
     (1, 1, ['label'])]
+
+bad_doccano_jsonl_entry_samples: list[DoccanoJsonlEntryTH] = [
+	{},
+	{"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12],[37,57,"BOARDGAME_NAME"]]},
+	{"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[["PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},
+	{"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],['37',57,"BOARDGAME_NAME"]]},]
+	# {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12, 'PRODUCT_TYPE'],[37,57,"BOARDGAME_NAME"]]}]
