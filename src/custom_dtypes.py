@@ -57,9 +57,21 @@ class DoccanoJsonlEntry:
     Doccano's annotated entry in .jsonl format."""
 
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
-        self.id: int = entry['id']
-        self.text: int = entry['text']
-        self.label: list[DoccanoJsonlLabelTH] = [DoccanoJsonlLabel(label) for label in entry['label']]
+        err_msg: str = f'Entry "{entry}" don\'t meet format required. ' +\
+                       f'Must be non-empty {DoccanoJsonlEntryTH.__supertype__}.'
+        err = DoccanoJsonlEntryBadFormat(err_msg)
+        try:
+            id_, text, label = entry['id'], entry['text'], [DoccanoJsonlLabel(label) for label in entry['label']]
+            if not isinstance(entry, dict) or\
+               not all([isinstance(x, type_) for x, type_ in zip((id_, text, label), (int, int, list))]) or\
+               not isinstance(label[0], DoccanoJsonlEntryTH):
+                raise err
+        except (IndexError, TypeError, DoccanoJsonlLabelBadFormat):
+            raise err
+        else:
+            self.id: int = id_
+            self.text: int = text
+            self.label: list[DoccanoJsonlLabelTH] = label
 
         return None
 
