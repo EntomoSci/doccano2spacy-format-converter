@@ -57,17 +57,12 @@ class DoccanoJsonlEntry:
     Doccano's annotated entry in .jsonl format."""
 
     def __init__(self, entry: DoccanoJsonlEntryTH) -> None:
-        err_msg: str = f'Entry "{entry}" don\'t meet format required. ' +\
-                       f'Must be non-empty {DoccanoJsonlEntryTH.__annotations__}.'
-        err = DoccanoJsonlEntryBadFormat(err_msg)
         try:
             id_, text, label = entry['id'], entry['text'], [DoccanoJsonlLabel(label) for label in entry['label']]
-            if not isinstance(entry, dict) or\
-               not all([isinstance(x, type_) for x, type_ in zip((id_, text, label), (int, int, list))]) or\
-               not isinstance(label[0], DoccanoJsonlEntryTH):
-                raise err
         except (KeyError, IndexError, TypeError, DoccanoJsonlLabelBadFormat):
-            raise err
+            err_msg: str = f'Entry "{entry}" don\'t meet format required. ' +\
+                        f'Must be non-empty {DoccanoJsonlEntryTH.__annotations__}.'
+            raise DoccanoJsonlEntryBadFormat(err_msg)
         else:
             self.id: int = id_
             self.text: int = text
@@ -95,13 +90,12 @@ class DoccanoJsonlData:
     Doccano's annotated data in .jsonl format."""
 
     def __init__(self, entries: list[DoccanoJsonlEntryTH]) -> None:
-        err_msg: str = f'Entries "{entries}" don\'t meet format required. ' +\
-                       f'Must be non-empty {DoccanoJsonlDataTH.__supertype__}.'
-        err = DoccanoJsonlDataBadFormat(err_msg)
         try:
             entries: list[DoccanoJsonlEntry] = [DoccanoJsonlEntry(entry) for entry in entries]
-        except (DoccanoJsonlLabelBadFormat, DoccanoJsonlEntryBadFormat, TypeError) as e:
-            raise err
+        except (DoccanoJsonlEntryBadFormat, TypeError) as e:
+            err_msg: str = f'Entries "{entries}" don\'t meet format required. ' +\
+                        f'Must be non-empty {DoccanoJsonlDataTH.__supertype__}.'
+            raise DoccanoJsonlDataBadFormat(err_msg)
         else:
             self.entries = entries
 

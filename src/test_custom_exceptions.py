@@ -66,26 +66,28 @@ class TestCustomExceptions(unittest.TestCase):
 
         return None
 
-    # def test_doccano_jsonl_data_exception(self) -> None:
-    #     """
-    #     Test `custom_dtypes.DoccanoJsonlDataBadFormat`."""
+    def test_doccano_jsonl_data_exception(self) -> None:
+        """
+        Test `custom_dtypes.DoccanoJsonlDataBadFormat`."""
     
-    #     bad_formated_samples: list[DoccanoJsonlEntryTH] = [[
-    #         {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12],[37,57,"BOARDGAME_NAME"]]},
-    #         {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[["PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]}], [
-    #         {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],['37',57,"BOARDGAME_NAME"]]},]]
-    #         # {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12, 'PRODUCT_TYPE'],[37,57,"BOARDGAME_NAME"]]}
+        bad_formated_samples: list[DoccanoJsonlDataTH] = [
+            [{},
+            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12],[37,57,"BOARDGAME_NAME"]]},
+            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[["PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]}
+            ], [
+            {"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],['37',57,"BOARDGAME_NAME"]]},
+            {"text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,[12],"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},]]
 
-    #     checks: int = 0
-    #     for sample in bad_formated_samples:
-    #         try:
-    #             DoccanoJsonlEntry(sample)
-    #         except DoccanoJsonlEntryBadFormat as e:
-    #             checks += 1
+        checks: int = 0
+        for sample in bad_formated_samples:
+            try:
+                DoccanoJsonlData(sample)
+            except DoccanoJsonlDataBadFormat as e:
+                # print(type(e), e)
+                checks += 1
+        self.assertTrue(checks == len(bad_formated_samples))
 
-    #     self.assertTrue(checks == len(bad_formated_samples))
-
-    #     return None
+        return None
 
 
 if __name__ == '__main__':
