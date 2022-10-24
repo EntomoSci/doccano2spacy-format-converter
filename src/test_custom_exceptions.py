@@ -16,7 +16,8 @@ from custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 from utils.test_samples import (
-    bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples)
+    bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples,
+    bad_spacy_jsonl_token_samples)
 
 
 class TestCustomExceptions(unittest.TestCase):
@@ -27,6 +28,7 @@ class TestCustomExceptions(unittest.TestCase):
         self.bad_doccano_jsonl_label_samples = bad_doccano_jsonl_label_samples
         self.bad_doccano_jsonl_entry_samples = bad_doccano_jsonl_entry_samples
         self.bad_doccano_jsonl_data_samples = bad_doccano_jsonl_data_samples
+        self.bad_spacy_jsonl_token_samples = bad_spacy_jsonl_token_samples
 
         return None
 
@@ -34,7 +36,7 @@ class TestCustomExceptions(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlLabelBadFormat`."""
 
-        samples = self.bad_doccano_jsonl_label_samples
+        samples: DoccanoJsonlLabelTH = self.bad_doccano_jsonl_label_samples
         checks: int = 0
         for sample in samples:
             try:
@@ -50,7 +52,7 @@ class TestCustomExceptions(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlEntryBadFormat`."""
 
-        samples = self.bad_doccano_jsonl_entry_samples
+        samples: DoccanoJsonlEntryTH = self.bad_doccano_jsonl_entry_samples
         checks: int = 0
         for sample in samples:
             try:
@@ -66,7 +68,7 @@ class TestCustomExceptions(unittest.TestCase):
         """
         Test `custom_dtypes.DoccanoJsonlDataBadFormat`."""
     
-        samples = self.bad_doccano_jsonl_data_samples
+        samples: DoccanoJsonlDataTH = self.bad_doccano_jsonl_data_samples
         checks: int = 0
         for sample in samples:
             try:
@@ -82,7 +84,15 @@ class TestCustomExceptions(unittest.TestCase):
         """
         Test `custom_dtypes.SpacyJsonlTokenBadFormat`."""
 
-
+        samples: list[SpacyJsonlTokenTH] = self.bad_spacy_jsonl_token_samples
+        checks: int = 0
+        for sample in samples:
+            try:
+                SpacyJsonlToken(sample)
+            except SpacyJsonlTokenBadFormat as e:
+                # print(type(e), e)
+                checks += 1
+        self.assertTrue(checks == len(samples))
 
         return None
 

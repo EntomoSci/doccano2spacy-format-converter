@@ -4,6 +4,7 @@ Author: https://github.com/smv7
 Description: Samples of the Deccano and spaCy .jsonl formats."""
 
 
+from custom_dtypes import SpacyJsonlToken
 from custom_typehints import (
 	DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
 	SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
@@ -124,3 +125,48 @@ bad_doccano_jsonl_data_samples: list[DoccanoJsonlDataTH] = [
 	], [
 	{"id": 2, "text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],['37',57,"BOARDGAME_NAME"]]},
 	{"text": "Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,[12],"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},]]
+
+bad_spacy_jsonl_token_samples: list[SpacyJsonlTokenTH] = [
+    { "text": "Bonobos", "start": '0', "end": 7, "id": 0 },
+    { "text": None, "start": 8, "end": 11, "id": 1 },
+    { "text": "some", "start": 12, "end": [16], "id": 2 },
+    { "text": "long", "start": 17, "end": 21 },
+    { "text": None, "start": 22, "end": 27, "id": 4 },]
+
+bad_spacy_jsonl_entry_samples: list[SpacyJsonlTokenTH] = [{
+  "text": "Bonobos has some long sizes.",
+  "tokens": [
+    { "text": "Bonobos", "start": '0', "end": 7, "id": 0 },
+    { "text": "has", "start": 8, "end": 11, "id": 1 },
+    { "text": "some", "start": 12, "end": [16], "id": 2 },
+    { "text": "long", "start": '17', "end": 21, "id": 3 },
+    { "text": "sizes", "start": 22, "end": 27, "id": 4 },
+    { "text": ".", "start": 27, "end": 28, "id": 5 }
+  ],
+  "spans": [
+    {
+      "start": 0,
+      "end": 7,
+      "token_start": 0,
+      "token_end": 0,
+      "label": "FASHION_BRAND"
+    }]
+}, {
+  "text": "Bonobos has some long sizes.",
+  "tokens": [
+    { "text": "Bonobos", "start": 0, "end": 7, "id": 0 },
+    { "text": "has", "start": 8, "end": 11, "id": 1 },
+    { "text": "some", "start": 12, "end": 16, "id": 2 },
+    { "text": "long", "start": 17, "end": 21, "id": 3 },
+    { "text": "sizes", "start": 22, "end": 27, "id": 4 },
+    { "text": ".", "start": 27, "end": 28, "id": 5 }
+  ],
+  "spans": [
+    {
+      "start": 0,
+      "end": 7,
+      "token_start": 0,
+      "token_end": 0,
+      "label": ['FASHION_BRAND']
+    }]
+}]
