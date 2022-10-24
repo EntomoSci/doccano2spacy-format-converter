@@ -4,6 +4,11 @@ Author: https://github.com/smv7
 Description: Samples of the Deccano and spaCy .jsonl formats."""
 
 
+from custom_typehints import (
+	DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
+	SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
+
+
 #NOTE: The Doccano's .jsonl format examples were extracted from custom sources and then processed by Doccano.
 doccano_jsonl_data = [
 {"id":2,"text":"Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},
@@ -90,3 +95,17 @@ spacy_jsonl_data = [{
   "_task_hash": -334208479,
   "answer": "accept"
 }]
+
+#=============================================================#
+# Samples used by the integration test for custom exceptions. #
+#=============================================================#
+# NOTE: Variables prefixed with "good_" are samples correctly formatted and those prefixed with "bad_" the opposite.
+
+bad_doccano_jsonl_label_samples: list[DoccanoJsonlLabelTH] = [
+	(),
+    ('label', 1, 1),
+    (1, 1, 1),
+    (1, 'label', 1),
+    ('1', '1', 'label'),
+    ('1', 1, 'label'),
+    (1, 1, ['label'])]

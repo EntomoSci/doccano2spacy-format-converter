@@ -15,33 +15,32 @@ from custom_exceptions import (
 from custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
+from utils.test_samples import (
+    bad_doccano_jsonl_label_samples)
 
 
 class TestCustomExceptions(unittest.TestCase):
     """
     Tests for the custom exceptions at `custom_dtypes.py` module."""
 
+    def setUp(self) -> None:
+        self.bad_doccano_jsonl_label_samples = bad_doccano_jsonl_label_samples
+
+        return None
+
     def test_doccano_jsonl_label_exception(self) -> None:
         """
         Test `custom_dtypes.DoccanoJsonlLabelBadFormat`."""
 
-        bad_formated_samples: list[DoccanoJsonlLabelTH] = [
-            (),
-            ('label', 1, 1),
-            (1, 1, 1),
-            (1, 'label', 1),
-            ('1', '1', 'label'),
-            ('1', 1, 'label'),
-            (1, 1, ['label'])]
-
+        samples = self.bad_doccano_jsonl_label_samples
         checks: int = 0
-        for sample in bad_formated_samples:
+        for sample in samples:
             try:
                 DoccanoJsonlLabel(sample)
             except DoccanoJsonlLabelBadFormat as e:
                 checks += 1
 
-        self.assertTrue(checks == len(bad_formated_samples))
+        self.assertTrue(checks == len(samples))
 
         return None
 
@@ -87,6 +86,14 @@ class TestCustomExceptions(unittest.TestCase):
                 # print(type(e), e)
                 checks += 1
         self.assertTrue(checks == len(bad_formated_samples))
+
+        return None
+
+    def test_spacy_jsonl_token_exception(self) -> None:
+        """
+        Test `custom_dtypes.SpacyJsonlTokenBadFormat`."""
+
+
 
         return None
 
