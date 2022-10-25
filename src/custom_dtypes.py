@@ -232,7 +232,7 @@ class SpacyJsonlEntry:
 class SpacyJsonlData:
     """Spacy's annotated data in .jsonl format."""
 
-    def __init__(self, entries: list[SpacyJsonlEntryTH]) -> None:
+    def __init__(self, entries: SpacyJsonlDataTH) -> None:
         try:
             entries: list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
         except (SpacyJsonlEntryBadFormat, TypeError) as e:
