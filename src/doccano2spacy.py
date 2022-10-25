@@ -7,9 +7,13 @@ Description: Format converter from Doccano to Spacy's compatible format of Prodi
 import json
 from pathlib import Path
 
+from spacy.tokenizer import Tokenizer
+from spacy.tokens import Token
+from spacy.lang.es import Spanish
+
 from custom_dtypes import (
     DoccanoJsonlEntry, DoccanoJsonlData,
-    SpacyJsonlEntry, SpacyJsonlData)
+    SpacyJsonlEntry, SpacyJsonlData, SpacyJsonlToken)
 
 
 class Doccano2Spacy:
@@ -32,13 +36,26 @@ class Doccano2Spacy:
             print(f'Unable to open {file2convert}')
             exit(1)
 
+        # Creating a blank tokenizer to segment text.
+        self.tokenizer = Tokenizer(Spanish().vocab)
+
         print(type(data), data)
 
         return None
 
-    def convert_jsonl(self, data: list[DoccanoJsonlEntry]) -> list[SpacyJsonlEntry]:
+    def convert_jsonl(self, data: DoccanoJsonlData) -> SpacyJsonlData:
         """
         Return converted version of `data` from Doccano's .jsonl format to spaCy's compatible format .jsonl."""
+
+        converted_data: SpacyJsonlData = []
+        for entry in data:
+            entry: DoccanoJsonlEntry
+            tokens: list[SpacyJsonlToken] = []
+            for token in self.tokenizer(entry['text']):
+                token: Token
+                tokens.append({'text': token.text, 'start': token.idx, 'end': token.idx + len(token), 'id': token.i})
+
+            #TODO: Create list of SpacyJsonlSpan using DoccanoJsonlEntry's label key.
 
         converted_data: SpacyJsonlData = list()
 
