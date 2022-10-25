@@ -8,12 +8,14 @@ import json
 from pathlib import Path
 
 from spacy.tokenizer import Tokenizer
-from spacy.tokens import Token
+from spacy.pipeline import Sentencizer
+from spacy.tokens import Token, Span, Doc
 from spacy.lang.es import Spanish
 
 from custom_dtypes import (
     DoccanoJsonlEntry, DoccanoJsonlData,
-    SpacyJsonlEntry, SpacyJsonlData, SpacyJsonlToken)
+    SpacyJsonlEntry, SpacyJsonlData, SpacyJsonlSpan, SpacyJsonlToken)
+from custom_typehints import DoccanoJsonlLabelTH
 
 
 class Doccano2Spacy:
@@ -27,35 +29,51 @@ class Doccano2Spacy:
         if isinstance(file2convert, str):
             with open(file2convert, 'rt', encoding='utf-8') as f:
                 # data = json.loads(f.readlines)
-                data = json.load(f)
+                self.loaded_data = json.load(f)
         elif isinstance(file2convert, Path):
             with file2convert.open('rt', encoding='utf-8') as f:
-                data: list = [json.loads(entry) for entry in f.readlines()]
+                self.loaded_data: list = [json.loads(entry) for entry in f.readlines()]
                 # data = json.load(f)
         else:
             print(f'Unable to open {file2convert}')
             exit(1)
 
-        # Creating a blank tokenizer to segment text.
+        # Creating a blank tokenizer to segment text and a blank sentencizer to detect sentences.
         self.tokenizer = Tokenizer(Spanish().vocab)
-
-        print(type(data), data)
+        self.sentencizer = Sentencizer()
 
         return None
 
-    def convert_jsonl(self, data: DoccanoJsonlData) -> SpacyJsonlData:
+    def convert_jsonl(self) -> SpacyJsonlData:
         """
-        Return converted version of `data` from Doccano's .jsonl format to spaCy's compatible format .jsonl."""
+        Return initialized document from Doccano's .jsonl format to spaCy's compatible format .jsonl."""
 
         converted_data: SpacyJsonlData = []
-        for entry in data:
+        for entry in self.loaded_data:
             entry: DoccanoJsonlEntry
-            tokens: list[SpacyJsonlToken] = []
-            for token in self.tokenizer(entry['text']):
-                token: Token
-                tokens.append({'text': token.text, 'start': token.idx, 'end': token.idx + len(token), 'id': token.i})
+            tokenized_text = self.tokenizer(entry['text'])
 
-            #TODO: Create list of SpacyJsonlSpan using DoccanoJsonlEntry's label key.
+            # Create list of SpacyJsonlToken using DoccanoJsonlEntry's text key.
+            tokens: list[SpacyJsonlToken] = []
+            for token in tokenized_text:
+                token: Token
+                token_dict = {'text': token.text, 'start': token.idx, 'end': token.idx + len(token), 'id': token.i}
+                tokens.append(SpacyJsonlToken(token_dict))
+
+            # Create list of SpacyJsonlSpan using DoccanoJsonlEntry's label key.
+            # NOTE: To get the token's start/end ids relative to the full text, a spaCy's Span object with convenient
+            # attributes had to be used, created by slicing the text's Doc object by its chars instead of tokens,
+            # because Doccano's .jsonl format only had available the chars' start/end indices.
+            spans: list[SpacyJsonlSpan] = []
+            for label in entry['label']:
+                label: DoccanoJsonlLabelTH
+                doc: Doc = self.sentencizer(tokenized_text)
+                st_slice, end_slice = label[0], label[1]
+                span_slice = doc.char_span(st_slice, end_slice)
+                token_start, token_end = span_slice.start, span_slice.end - 1
+                label_dict = {'start': label[0], 'end': label[1],
+                              'token_start': token_start, 'token_end': token_end, 'label': label[2]}
+                spans.append(SpacyJsonlSpan(label_dict))
 
         converted_data: SpacyJsonlData = list()
 
