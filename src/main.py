@@ -5,7 +5,6 @@ Description: Main script for Doccano/Spacy format conversions through a CLI."""
 
 
 import argparse
-from json import dumps
 import sys
 from pathlib import Path
 
@@ -29,17 +28,11 @@ def main():
     args = parser.parse_args()
 
     # Reading the input file to convert and creating the output converted file.
-    destination_file = Path(__file__).parent.joinpath(args.out)
-    with destination_file.open('wt', encoding='utf-8') as file2write:
+    destination_file_path = Path(__file__).parent.joinpath(args.out)
+    with destination_file_path.open('wt', encoding='utf-8') as file2write:
         file2read = Path(args.file)
         converter = Doccano2Spacy(file2read)
-        print(f'Converting {file2read}...')
-        converted_data = converter.get_converted_jsonl()
-        print(f'Writing converted data to {destination_file}...')
-        for entry in converted_data.get():
-            file2write.write(dumps(entry) + '\n')
-        print('File successfully converted!')
-
+        converter.convert_jsonl_to(file2write)
 
 if __name__ == '__main__':
     main()

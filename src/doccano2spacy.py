@@ -4,6 +4,7 @@ Author: https://github.com/smv7
 Description: Format converter from Doccano to Spacy's compatible format of Prodigy."""
 
 
+from io import TextIOWrapper
 import re
 import json
 from pathlib import Path
@@ -23,18 +24,17 @@ class Doccano2Spacy:
     """
     Format converter from Doccano to Spacy's compatible format of Prodigy."""
 
-    #TODO: Conversion rules as class attributes.
-
-    def __init__(self, file2convert: str | Path) -> None:
+    def __init__(self, file2read: str | Path) -> None:
+        self.file2read = file2read 
         # Opening and converting the file to "DoccanoJsonlData" object for internal processing.
-        if isinstance(file2convert, str):
-            with open(file2convert, 'rt', encoding='utf-8') as f:
+        if isinstance(file2read, str):
+            with open(file2read, 'rt', encoding='utf-8') as f:
                 self.loaded_data: DoccanoJsonlDataTH = [json.loads(entry) for entry in f.readlines()]
-        elif isinstance(file2convert, Path):
-            with file2convert.open('rt', encoding='utf-8') as f:
+        elif isinstance(file2read, Path):
+            with file2read.open('rt', encoding='utf-8') as f:
                 self.loaded_data: DoccanoJsonlDataTH = [json.loads(entry) for entry in f.readlines()]
         else:
-            print(f'Unable to open {file2convert}')
+            print(f'Unable to open {file2read}')
             exit(1)
 
         # Creating a blank tokenizer to segment text and a blank sentencizer to detect sentences.
@@ -47,7 +47,7 @@ class Doccano2Spacy:
 
         return None
 
-    def get_converted_jsonl(self) -> SpacyJsonlData:
+    def _get_converted_jsonl(self) -> SpacyJsonlData:
         """
         Return initialized document from Doccano's .jsonl format converted to spaCy's compatible .jsonl format."""
 
@@ -86,6 +86,19 @@ class Doccano2Spacy:
             converted_data.append(converted_entry)
 
         return SpacyJsonlData(converted_data)
+
+    def convert_jsonl_to(self, file2write: TextIOWrapper) -> None:
+        """
+        Convert `file2read` from Doccano's .jsonl format to Spacy's compatible .jsonl format at `file2write`."""
+
+        print(f'Converting {self.file2read}...')
+        converted_data = self._get_converted_jsonl()
+        print(f'Writing converted data to {file2write.name}...')
+        for entry in converted_data.get():
+            file2write.write(json.dumps(entry) + '\n')
+        print('File successfully converted!')
+
+        return None
 
 
 if __name__ == '__main__':

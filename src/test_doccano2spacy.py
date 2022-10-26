@@ -33,6 +33,12 @@ class TestDoccano2Spacy(unittest.TestCase):
 
         return None
 
+    def test_loading_converted_file_back(self) -> None:
+        """
+        Test converted output .jsonl file with `Doccano2Spacy.` by loading it back to a `SpacyJsonlData` object"""
+
+        return None
+
 
 if __name__ == '__main__':
     unittest.main()
