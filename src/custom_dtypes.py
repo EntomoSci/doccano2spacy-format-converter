@@ -149,6 +149,12 @@ class SpacyJsonlToken:
 
         return all(checks)
 
+    def get(self) -> SpacyJsonlTokenTH:
+        """
+        Return spaCy's jsonl token representation with python build-in dtypes."""
+
+        return {'text': self.text, 'start': self.start, 'end': self.end, 'id': self.id}
+
 
 class SpacyJsonlSpan:
     """
@@ -193,6 +199,14 @@ class SpacyJsonlSpan:
 
         return all(checks)
 
+    def get(self) -> SpacyJsonlSpanTH:
+        """
+        Return spaCy's jsonl span representation with python build-in dtypes."""
+
+        return {
+            'start': self.start, 'end': self.end,
+            'token_start': self.token_start, 'token_end': self.token_end, 'label': self.label}
+
 
 class SpacyJsonlEntry:
     """
@@ -228,13 +242,22 @@ class SpacyJsonlEntry:
 
         return all(checks)
 
+    def get(self) -> SpacyJsonlEntryTH:
+        """
+        Return spaCy's jsonl entry representation with python build-in dtypes."""
+
+        return {
+            'text': self.text,
+            'tokens': [token.get() for token in self.tokens],
+            'spans': [span.get() for span in self.spans]}
+
 
 class SpacyJsonlData:
     """Spacy's annotated data in .jsonl format."""
 
     def __init__(self, entries: SpacyJsonlDataTH) -> None:
         try:
-            entries: list[SpacyJsonlEntry] = [SpacyJsonlEntry(entry) for entry in entries]
+            entries: SpacyJsonlDataTH = [SpacyJsonlEntry(entry) for entry in entries]
         except (SpacyJsonlEntryBadFormat, TypeError) as e:
             err_msg: str = f'Entries "{entries}" don\'t meet format required. ' +\
                            f'Must be non-empty {SpacyJsonlDataTH.__supertype__}.'
@@ -253,3 +276,10 @@ class SpacyJsonlData:
             return False
 
         return all(checks)
+
+    def get(self) -> SpacyJsonlDataTH:
+        """
+        Return spaCy's jsonl data representation with python build-in dtypes."""
+
+        for entry in self.entries:
+            yield entry.get()

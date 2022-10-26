@@ -23,11 +23,11 @@ class TestDoccano2Spacy(unittest.TestCase):
 
         return None
 
-    def test_convert_jsonl(self) -> None:
+    def test_get_converted_jsonl(self) -> None:
         """
         Test for .jsonl's conversion method between Doccano and spaCy's Prodigy formats."""
 
-        converted_data = self.converter.convert_jsonl()
+        converted_data = self.converter.get_converted_jsonl()
         self.assertTrue(converted_data == self.reference_data)
         self.assertIsInstance(converted_data, SpacyJsonlData)
 

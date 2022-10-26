@@ -47,9 +47,9 @@ class Doccano2Spacy:
 
         return None
 
-    def convert_jsonl(self) -> SpacyJsonlData:
+    def get_converted_jsonl(self) -> SpacyJsonlData:
         """
-        Return initialized document from Doccano's .jsonl format to spaCy's compatible format .jsonl."""
+        Return initialized document from Doccano's .jsonl format converted to spaCy's compatible .jsonl format."""
 
         converted_data: SpacyJsonlDataTH = []
         for entry in self.loaded_data:
