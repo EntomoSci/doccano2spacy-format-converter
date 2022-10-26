@@ -13,9 +13,7 @@ from spacy.pipeline import Sentencizer
 from spacy.tokens import Token, Span, Doc
 from spacy.lang.es import Spanish
 
-from custom_dtypes import (
-    DoccanoJsonlEntry, DoccanoJsonlData,
-    SpacyJsonlEntry, SpacyJsonlData, SpacyJsonlSpan, SpacyJsonlToken)
+from custom_dtypes import SpacyJsonlData
 from custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
@@ -31,12 +29,10 @@ class Doccano2Spacy:
         # Opening and converting the file to "DoccanoJsonlData" object for internal processing.
         if isinstance(file2convert, str):
             with open(file2convert, 'rt', encoding='utf-8') as f:
-                # data = json.loads(f.readlines)
-                self.loaded_data: list = [json.loads(entry) for entry in f.readlines()]
+                self.loaded_data: DoccanoJsonlDataTH = [json.loads(entry) for entry in f.readlines()]
         elif isinstance(file2convert, Path):
             with file2convert.open('rt', encoding='utf-8') as f:
-                self.loaded_data: list = [json.loads(entry) for entry in f.readlines()]
-                # data = json.load(f)
+                self.loaded_data: DoccanoJsonlDataTH = [json.loads(entry) for entry in f.readlines()]
         else:
             print(f'Unable to open {file2convert}')
             exit(1)
@@ -73,29 +69,20 @@ class Doccano2Spacy:
             # because Doccano's .jsonl format only had available the chars' start/end indices.
             spans: list[SpacyJsonlSpanTH] = []
             doc: Doc = self.sentencizer(tokenized_text)
-            # for t in tokenized_text: print(type(t), t)
-            # return
             for label in entry['label']:
                 label: DoccanoJsonlLabelTH
                 st_slice, end_slice = label[0], label[1]
-                print(type(st_slice), type(end_slice))
-                txt = doc.text
-                print(st_slice, end_slice, len(doc.text), txt[:50] + '...' if len(txt) > 50 else txt, '->', f'"{txt[st_slice:end_slice]}"')
                 # NOTE: The "Doc.char_span" method using its default "alignment_mode='strict'" consider the punctuation
                 # as part of the last sentence's token, so the start/end indices MUST consider them as tokens; only
                 # whitespace separates tokens with the configuration used here.
-                span_slice = doc.char_span(st_slice, end_slice)
-                # x, y = label[0], label[1]
-                # print(type(x), x, type(y), y)
-                # x = span_slice
-                # print(type(x), x)
+                span_slice: Span = doc.char_span(st_slice, end_slice)
                 token_start, token_end = span_slice.start, span_slice.end - 1
                 label_dict = {'start': label[0], 'end': label[1],
                               'token_start': token_start, 'token_end': token_end, 'label': label[2]}
                 spans.append(label_dict)
 
             # Create the converted entry as a SpacyJsonlEntry object with the builded tokens and spans.
-            converted_entry = {'text': entry['text'],'tokens': tokens, 'spans': spans}
+            converted_entry: SpacyJsonlEntryTH = {'text': entry['text'],'tokens': tokens, 'spans': spans}
             converted_data.append(converted_entry)
 
         return SpacyJsonlData(converted_data)

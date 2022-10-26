@@ -11,7 +11,7 @@ from custom_typehints import (
 
 
 #NOTE: The Doccano's .jsonl format examples were extracted from custom sources and then processed by Doccano.
-doccano_jsonl_data = [
+doccano_jsonl_data: DoccanoJsonlDataTH = [
 {"id":2,"text":"Componentes necesarios para jugar la expansión de La Isla. Por si perdió alguno o todos *guiño guino*","label":[[0,12,"PRODUCT_TYPE"],[37,57,"BOARDGAME_NAME"]]},
 {"id": 1, "text": "Les traemos un nuevo producto para hacer más amenas sus partidas. Prácticos recipientes para fichas \
   diseñados para poder sacar tus fichas de manera cómoda en partida y facilitar su almacenamiento. Costo del set $4990",
@@ -20,7 +20,7 @@ doccano_jsonl_data = [
 ]
 
 #NOTE: The spaCy's .jsonl compatible format examples were extracted from https://github.com/explosion/projects.
-spacy_jsonl_data = [{
+spacy_jsonl_data: SpacyJsonlDataTH = [{
   "text": "Bonobos has some long sizes.",
   "tokens": [
     { "text": "Bonobos", "start": 0, "end": 7, "id": 0 },
