@@ -102,6 +102,8 @@ class Doccano2Spacy:
 
 
 if __name__ == '__main__':
-    path = Path(__file__).parent.joinpath('data/sample.jsonl')
-    converter = Doccano2Spacy(path)
-    converter.convert_jsonl()
+    # path = Path(__file__).parent.joinpath('data/sample.jsonl')
+    path = Path(__file__).parent.joinpath('data/converted.jsonl')
+    # converter = Doccano2Spacy(path)
+    # converter.convert_jsonl()
+    json.load()
