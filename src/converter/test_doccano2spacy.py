@@ -11,7 +11,7 @@ import unittest
 from custom_dtypes import SpacyJsonlData
 from custom_exceptions import SpacyJsonlDataBadFormat
 from doccano2spacy import Doccano2Spacy
-from utils.test_samples import spacy_jsonl_data
+from test_samples import spacy_jsonl_data
 
 
 class TestDoccano2Spacy(unittest.TestCase):

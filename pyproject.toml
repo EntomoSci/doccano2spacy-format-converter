@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doccano2spacy-format-converter"
+version = "1.0.0"
+description = "A CLI tool to convert Doccano's format to the Spacy's compatible format produced by Prodigy."
+readme = "README.md"
+authors = [{name = "smv7", github = "https://github.com/smv7"}]
+license = {file = "LICENSE"}
+dependencies = [
+    "spacy >= 3.3.1",]
+requires-python = ">=3.10.6"
+
+[project.urls]
+Homepage = "https://github.com/smv7/Doccano2SpacyFormatConverter"
+
+[project.scripts]
+convert = "converter.__main__:main"

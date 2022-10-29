@@ -15,7 +15,7 @@ from custom_exceptions import (
 from custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
-from utils.test_samples import (
+from test_samples import (
     bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples,
     bad_spacy_jsonl_token_samples, bad_spacy_jsonl_span_samples, bad_spacy_jsonl_entry_samples,
     bad_spacy_jsonl_data_samples)
