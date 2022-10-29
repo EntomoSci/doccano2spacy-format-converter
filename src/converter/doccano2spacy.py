@@ -14,8 +14,8 @@ from spacy.pipeline import Sentencizer
 from spacy.tokens import Token, Span, Doc
 from spacy.lang.es import Spanish
 
-from custom_dtypes import SpacyJsonlData
-from custom_typehints import (
+from converter.custom_dtypes import SpacyJsonlData
+from converter.custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 

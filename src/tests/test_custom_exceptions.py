@@ -6,16 +6,16 @@ Description: Tests for the custom exceptions at `custom_exceptions.py` module.""
 
 import unittest
 
-from custom_dtypes import (
+from converter.custom_dtypes import (
     DoccanoJsonlLabel, DoccanoJsonlEntry, DoccanoJsonlData,
     SpacyJsonlToken, SpacyJsonlSpan, SpacyJsonlEntry, SpacyJsonlData)
-from custom_exceptions import (
+from converter.custom_exceptions import (
     DoccanoJsonlLabelBadFormat, DoccanoJsonlEntryBadFormat, DoccanoJsonlDataBadFormat,
     SpacyJsonlTokenBadFormat, SpacyJsonlSpanBadFormat, SpacyJsonlEntryBadFormat, SpacyJsonlDataBadFormat)
-from custom_typehints import (
+from converter.custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
-from test_samples import (
+from converter.test_samples import (
     bad_doccano_jsonl_label_samples, bad_doccano_jsonl_entry_samples, bad_doccano_jsonl_data_samples,
     bad_spacy_jsonl_token_samples, bad_spacy_jsonl_span_samples, bad_spacy_jsonl_entry_samples,
     bad_spacy_jsonl_data_samples)

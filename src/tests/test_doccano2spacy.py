@@ -8,10 +8,10 @@ from json import loads
 from pathlib import Path
 import unittest
 
-from custom_dtypes import SpacyJsonlData
-from custom_exceptions import SpacyJsonlDataBadFormat
-from doccano2spacy import Doccano2Spacy
-from test_samples import spacy_jsonl_data
+from converter.custom_dtypes import SpacyJsonlData
+from converter.custom_exceptions import SpacyJsonlDataBadFormat
+from converter.doccano2spacy import Doccano2Spacy
+from converter.test_samples import spacy_jsonl_data
 
 
 class TestDoccano2Spacy(unittest.TestCase):

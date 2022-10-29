@@ -4,8 +4,8 @@ Author: https://github.com/smv7
 Description: Samples of the Deccano and spaCy .jsonl formats."""
 
 
-from custom_dtypes import SpacyJsonlToken
-from custom_typehints import (
+from converter.custom_dtypes import SpacyJsonlToken
+from converter.custom_typehints import (
 	DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
 	SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
 

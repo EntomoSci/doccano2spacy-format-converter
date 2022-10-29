@@ -6,13 +6,13 @@ Description: Tests for the custom dtypes at `custom_dtypes.py` module."""
 
 import unittest
 
-from custom_dtypes import (
+from converter.custom_dtypes import (
     DoccanoJsonlLabel, DoccanoJsonlEntry, DoccanoJsonlData,
     SpacyJsonlToken, SpacyJsonlSpan, SpacyJsonlEntry, SpacyJsonlData)
-from custom_typehints import (
+from converter.custom_typehints import (
     DoccanoJsonlLabelTH, DoccanoJsonlEntryTH, DoccanoJsonlDataTH,
     SpacyJsonlTokenTH, SpacyJsonlSpanTH, SpacyJsonlEntryTH, SpacyJsonlDataTH)
-from test_samples import doccano_jsonl_data, spacy_jsonl_data
+from converter.test_samples import doccano_jsonl_data, spacy_jsonl_data
 
 
 class TestCustomDtypes(unittest.TestCase):

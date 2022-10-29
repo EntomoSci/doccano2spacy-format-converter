@@ -17,4 +17,4 @@ requires-python = ">=3.10.6"
 Homepage = "https://github.com/smv7/Doccano2SpacyFormatConverter"
 
 [project.scripts]
-convert = "converter.__main__:main"
+d2s = "converter.__main__:main"

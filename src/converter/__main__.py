@@ -8,14 +8,14 @@ import argparse
 import sys
 from pathlib import Path
 
-from doccano2spacy import Doccano2Spacy
+from converter.doccano2spacy import Doccano2Spacy
 
 
 #TODO: Output file options.
 #TODO: Flags to control input/output formats.
 def main():
     # Configuring the argument parser to control CLI.
-    parser = argparse.ArgumentParser("Doccano to Spacy's compatible format.",
+    parser = argparse.ArgumentParser("d2s",
                                      description="Format converter from Doccano to Spacy's compatible format")
     parser.add_argument('-f', '--file', help='File to convert.')
     parser.add_argument('-o', '--out', default='./data/converted.jsonl', help='Converted file destination.')
